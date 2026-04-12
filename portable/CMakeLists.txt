@@ -1343,11 +1343,14 @@ if(FREERTOS_PORT STREQUAL GCC_POSIX)
     find_package(Threads REQUIRED)
 endif()
 
+target_link_libraries(freertos_kernel_include
+    INTERFACE
+        freertos_kernel_port_headers)
+
 target_link_libraries(freertos_kernel_port
     PUBLIC
         $<$<STREQUAL:${FREERTOS_PORT},GCC_RP2040>:pico_base_headers>
         $<$<STREQUAL:${FREERTOS_PORT},GCC_XTENSA_ESP32>:idf::esp32>
-        freertos_kernel_port_headers
     PRIVATE
         freertos_kernel_include
         $<$<STREQUAL:${FREERTOS_PORT},GCC_POSIX>:Threads::Threads>
